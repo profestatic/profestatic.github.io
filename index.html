@@ -1,0 +1,198 @@
+<html>
+	<head>
+		<title>Nivel estático</title>
+		<link rel="shortcut icon" type="image/x-icon" href="imagenes/arriba.jpeg">
+		<link rel="stylesheet" type="text/css" href="css_armadura/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="css_armadura/estilos_armaduras.css"/>
+		<meta name="description" content="analisis estructural de armaduras o cerchas, metodo rigideces">
+		<meta name="keywords" content="armadura, cercha, calculo, estructural">
+	</head>
+	<body>
+		<header id="enca">
+			<h1>CURVAS DEL NIVEL ESTÁTICO</h1>
+			<p><b>Se recomienda fuertemente seguir el orden en el que aparecen los pasos de ingreso de datos y
+				por supuesto se congruente con tus unidades, las coordenadas a introducir deben ser en UTM.</b></p>
+		</header>
+		<div class="menu">
+			<a href="#" id="barras" class="opcionesMenu menuElegido">Copiar datos de Excel</a>
+			<a href="#" id="cargas" class="opcionesMenu">Introducción manual</a>
+			<!--<a href="#" id="apoyos" class="opcionesMenu">Apoyos</a>
+			<a href="#" id="solucion" class="opcionesMenu">Solucion</a>-->
+		</div>
+		<div class="panel">
+			<div class="entrada" id="ebarras">
+				<h3>Copia y pega de un archivo de excel, evita los títulos de tu tabla.</h3>
+				<textarea id="texto" onpaste="verTexto();" onclick="this.value='';" oncontextmenu="this.value='';" rows="5" cols="48">Este  Norte  P. est  Elev. br  H. br </textarea>
+				<!--<p>Coordenadas UTM</p>
+				<label for="core">Coordenada Este m</label><br>
+				<input type="number" name="core" id="core" value="" placeholder="Este m"><br>
+				<label for="corn">Coordenada Norte m</label><br>
+				<input type="number" name="corn" id="corn" value="" placeholder="Norte m">
+				<select class="nodos" name="n1" id="n1">
+					<option value="Norte">Norte</option>
+					<option value="Sur">Sur</option>
+				</select><br><br>
+				<label for="nest">Profundidad nivel estatico</label>
+				<label for="elv" class="paya">Elevacion brocal</label><br>
+				<input type="number" name="nest" id="nest" value="" placeholder="Prufundidad estatica" class="coordenadas">
+				<input type="number" name="elev" id="elev" value="" placeholder="Elevacion brocal" class="coordenadas paya"><br>
+				<label for="hbr">Altura del brocal</label><br>
+				<input type="number" name="hbr" id="hbr" value="" placeholder="Altura brocal" class="coordenadas">-->
+				<input type="button" name="agregarPozo" value="Agregar Pozos" class="agregar ones" id="agregarPozo">
+			</div>
+			<div class="entrada quitar" id="ecargas">
+				<p>Coordenadas UTM</p>
+				<label for="core">Coordenada Este m</label><br>
+				<input type="number" name="core" id="core" value="" placeholder="Este m" class="necesario"><br>
+				<label for="corn">Coordenada Norte m</label><br>
+				<input type="number" name="corn" id="corn" value="" placeholder="Norte m" class="necesario">
+				<br>
+				<label for="nest">Profundidad nivel estático</label>
+				<label for="elv" class="paya">Elevación brocal</label><br>
+				<input type="number" name="nest" id="nest" value="" placeholder="Prufundidad estatica" class="coordenadas necesario">
+				<input type="number" name="elev" id="elev" value="" placeholder="Elevacion brocal" class="coordenadas paya necesario"><br>
+				<label for="hbr">Altura del brocal</label><br>
+				<input type="number" name="hbr" id="hbr" value="" placeholder="Altura brocal" class="coordenadas necesario">
+				<input type="button" name="agregarPozo" value="Agregar Pozo" class="agregar ones" id="agregarManual">
+				<!--<label for="nc">Nodo de aplicacion</label>
+				<select class="nodos" name="nc" id="nc">
+					<option value="0">...</option>
+				</select><br><br>
+				<label for="cx">Valor de la carga</label>
+				<input type="number" name="cx" id="fuerza" value="" placeholder=""><br><br>
+				<label for="cy">Carga en X</label>
+				<input type="checkbox" name="cx" id="cx" value="" placeholder="" class="direccion"><br><br>
+				<label for="cy">Carga en Y</label>
+				<input type="checkbox" name="cy" id="cy" value="" placeholder="" class="direccion"><br><br>
+				<label for="cz">Carga en Z</label>
+				<input type="checkbox" name="cz" id="cz" value="" placeholder="" class="direccion"><br><br>
+				<input type="button" name="agregarCarga" value="Agregar carga" class="agregar">-->
+			</div>
+			<div class="tablon" >
+				<table class="tabla" id="tbarras">
+					<tr>
+						<td>No.</td>
+						<td>Este m</td>
+						<td>Norte m</td>
+						<td>P. est</td>
+						<td>Elev. br</td>
+						<td>H.Br</td>
+						<td>Elv.niv.est.</td>
+					</tr>
+				</table>
+			</div>
+			<div class="graficos" id="plano">
+				<img src="imagenes/rosa.png" alt="chin" id="rosa">
+				<canvas id="curvas" width="940" height="620" class="zonaDibujo">tu navegador no soporta los graficos</canvas>
+				<canvas id="elevEst" width="940" height="620" class="zonaDibujo quitar">tu navegador no soporta los graficos</canvas>
+				<a href="#" id="plxy" class="opcionesPlanos planoElegido">Profundidad nivel estático</a>
+				<a href="#" id="plzy" class="opcionesPlanos">Elevación nivel estático</a>
+				<a href="#" id="plxz" class="opcionesPlanos">...</a>
+				<a href="#" id="unPunto" class="opcionesPlanos">Datos de un punto</a>
+				<input type="button" name="modificacion" value="Crear curvas" class="agregar ones" id="curvPrin">
+				<input type="button" name="modificacion" value="Crear curvas" class="agregar ones quitar" id="curvElev">
+				<div class="menuAjustes  quitar">
+					<label for="pozoMarca">Marcar pozos</label>
+					<input type="checkbox" name="pozoMarca" id="pozoMarca" value=""><br><br>
+					<label for="numPozo">Número de pozos</label>
+					<input type="checkbox" name="numPozo" id="numPozo" value=""><br><br>
+					<label for="todasCurvas">Valor de cada curva</label>
+					<input type="checkbox" name="todasCurvas" id="todasCurvas" value=""><br><br>
+					<label for="equidistancia">Equidistancia</label>
+					<input type="number" name="equidistancia" id="equidistancia" value="10" class="chicos"><br><br>
+					<label for="cantidadPuntos">Cantidada máxima de pozos</label>
+					<input type="number" name="cantidadPuntos" id="cantidadPuntos" value="30" class="chicos"><br><br>
+					<label for="colorCurvasP">Color curva maestra de Profundidad</label>
+					<input type="color" name="colorCurvasP" id="colorCurvasP" value="#7c8ef4"><br><br>
+					<label for="colorCurvasS">Color curva secundaria de Profundidad</label>
+					<input type="color" name="colorCurvasS" id="colorCurvasS" value="#7dc8f4"><br><br>
+					<label for="colorElevP">Color curva maestra de Elevación</label>
+					<input type="color" name="colorElevP" id="colorElevP" value="#f47c7c"><br><br>
+					<label for="colorElevS">Color curva secundaria de Elevación</label>
+					<input type="color" name="colorElevS" id="colorElevS" value="#f49b7c"><br><br>
+					<input type="button" name="hecho" value="Hecho" class="botonAjustes" id="hecho">
+				</div>
+				<div class="puntoGusto quitar">
+					<label for="corep">Coordenada Este m</label><br>
+					<input type="number" name="corep" id="corep" value="" placeholder="Este m" class="necesario"><br>
+					<label for="cornp">Coordenada Norte m</label><br>
+					<input type="number" name="cornp" id="cornp" value="" placeholder="Norte m" class="necesario">
+					<br><br>
+					<input type="button" name="puntoMapa" value="Seleccionar en el mapa" class="botonAjustes" id="puntoMapa">
+					<br><br>
+					<input type="button" name="puntoMagia" value="Obtener datos" class="botonAjustes" id="puntoMagia">
+					<div class="tablon nuevosPunto" >
+						<table class="tabla" id="tpuntosAlt">
+							<tr>
+								<td>Este m</td>
+								<td>Norte m</td>
+								<td>P. est</td>
+								<td>Elv.niv.est.</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<p id="coorxy">x: y:</p>
+				<input type="button" name="centrar" value="Centrar" class="agregar" id="centrar">
+				<input type="range" name="escala" id="escala" min="0.001" max="0.04" step="0.001" value="0.02">
+			</div>
+		</div>
+		<article class="instrucciones">
+			<h2>Instrucciones.</h2>
+			<p>Se coherente con tus unidades y no refresques la página hasta que termines.<b> Este es un proyecto en DESARROLLO, cualquier fallo o sugerencia
+			favor de contactar con el autor.</b></p><p class="correo"></p>
+			<h3><i>Entrada de datos.</i></h3>
+			<p class="conimg">Para la entrada de datos se cuenta con dos opciones, pegar datos provenientes de EXCEL o introducir uno por uno,
+			 como la intención es que sea lo mas comoda posible, se recomienda que se use el primer método. Independientemente del método, las
+		 	coordenadas deberan ser en UTM presición metro. Por cuestiones de rendimiento se restrigio el número de pozos a 30, sin embargo esto
+			se puede cambiar esto en el menu de opciones, pero hay que tener en cuenta que esto puede consumir muchos recursos de su dispositivo,
+			tardar varios minutos y que el navegador arroje algun mensaje de advertencia, así que la recomendación sigue siendo 30 pozos.</p>
+			<p>Si se desea pegar los datos de Excel, las columnas deberan tener el siguiente orden: Coordenada Este, coordenada Norte, profundidad
+			del nivel estático, la elevación del brocal y la altura del brocal. Las celdas no deberan tener formato de número, es decir, usar
+			el tipo general y por último en la selección se omitiran los títulos. Dar click en "Agregar pozos", una vez hecho esto no se
+			podran agregar mas pozos, a menos que se metan manualmente.</p>
+			<img src="imagenes/seleccion.jpeg" class="ejemplos" alt="chin" id="seleccion">
+			<p>Si se desea introducir los datos manualmente, basta con llenar los espacios que se piden y clickear en "Agregar pozo".<br>
+			En caso de solo querer las curvas de profundidad del nivel estático se puede omitir la información de la elevación del brocal
+			y la altura del brocal.</p>
+			<h3><i>Generar curvas.</i></h3>
+			<p>Antes de generar las curvas se debe estar seguro de que la información está completa, ya que después de generarlas no se
+			podran agregar más pozos, como mínimo habrá que tener información de 3 pozos para poder generar las curvas.</p>
+			<p>Primero hay que dirigirse al panel de visualización del tipo de curvas que se desee visualizar y seleccionar en el botón
+			"Crear curvas".</p>
+			<h3><i>Ajustes.</i></h3>
+			<p>Para desplegar el menu se tiene que seleccionar la opción en el panel marcada por <b>"..."</b> ahí se podra modificar:
+			la equidistancia, la cantidad máxima de pozos y el color de las curvas, también se podra activar la opción para visualizar
+			los pozos y sus numeros, y el valor que tienen todas las curvas. Todos estos ajustes se pueden aplicar antes o después de
+			generar las curvas.</p>
+
+			<h3><i>Datos de un punto.</i></h3>
+			<p>Está función sirve para obtener la información de un punto cualquiera en el terreno, siempre y cuando este dentro de
+			la triangulación, para esto el usuario tiene la opción de introducir las coordenadas o bien, usar la opción de seleccionar en
+			el mapa para obtener las coordenadas; una vez introducidas las coordenadas, se dara click en el botón <b>Obtener datos</b>,
+			cabe aclarar que está función solo estará disponible despues de que se hayan generado cualquiera de los dos tipos de curvas.</p>
+			<a href="https://teamnopal.github.io/">Pagina hermana de análisis estructural</a>
+			</article>
+			<footer>
+			<div class="contacto">
+				<p>Leonardo Yafté Domínguez Lagarde</p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="contacto">
+				<p>Diego Jesús Rocha Rivera</p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="contacto">
+				<p>Hildebrand Solis Rojas</p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+		</footer>
+		<script src="javascript/curvencio.js"></script>
+	</body>
+<html>
