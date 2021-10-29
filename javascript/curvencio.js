@@ -213,8 +213,8 @@ function principal() {
   for (var i = 0; i < punto.length; i++) {
     dibujarPuntos(i);
   }
-  alert("no te lo robes lo hizo el imge Leonardo");
-  console.log("no te lo robes lo hizo el imge Leonardo");
+  //alert("no te lo robes lo hizo el imge Leonardo");
+  //console.log("no te lo robes lo hizo el imge Leonardo");
   escalaGrafica();
 }
 function origen() {
